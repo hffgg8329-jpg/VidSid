@@ -1,0 +1,80 @@
+
+const express = require("express");
+const http = require("http");
+const path = require("path");
+const { Server } = require("socket.io");
+
+const app = express();
+const server = http.createServer(app);
+const io = new Server(server);
+
+const PORT = process.env.PORT || 3000;
+
+app.use(express.static(path.join(__dirname, "public")));
+
+app.get("/health", (req, res) => {
+  res.json({ status: "VidSid is running!" });
+});
+
+let waitingUser = null;
+const partners = new Map();
+
+function leaveChat(id) {
+  const partnerId = partners.get(id);
+  partners.delete(id);
+
+  if (waitingUser === id) waitingUser = null;
+
+  if (partnerId) {
+    partners.delete(partnerId);
+    io.to(partnerId).emit("partner-left");
+  }
+}
+
+io.on("connection", (socket) => {
+
+  socket.on("find-partner", () => {
+    leaveChat(socket.id);
+
+    if (waitingUser) {
+      const other = io.sockets.sockets.get(waitingUser);
+      waitingUser = null;
+
+      if (other) {
+        partners.set(socket.id, other.id);
+        partners.set(other.id, socket.id);
+
+        other.emit("matched", { initiator: true });
+        socket.emit("matched", { initiator: false });
+        return;
+      }
+    }
+
+    waitingUser = socket.id;
+    socket.emit("waiting");
+  });
+
+  socket.on("next", () => {
+    leaveChat(socket.id);
+  });
+
+  socket.on("chat-message", (message) => {
+    const partner = partners.get(socket.id);
+    if (partner && typeof message === "string") {
+      io.to(partner).emit("chat-message", message.slice(0, 1000));
+    }
+  });
+
+  ["webrtc-offer", "webrtc-answer", "webrtc-ice"].forEach(event => {
+    socket.on(event, data => {
+      const partner = partners.get(socket.id);
+      if (partner) io.to(partner).emit(event, data);
+    });
+  });
+
+  socket.on("disconnect", () => leaveChat(socket.id));
+});
+
+server.listen(PORT, "0.0.0.0", () => {
+  console.log("VidSid running on port " + PORT);
+});
