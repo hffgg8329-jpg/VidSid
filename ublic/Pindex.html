@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VidSid - Random Chat</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<header>
+  <h2>💜 VidSid</h2>
+  <span>Random Chat</span>
+</header>
+
+<main>
+  <h1>Meet Someone <span>New!</span></h1>
+  <p>Connect with strangers around the world.</p>
+
+  <section class="videos">
+    <div class="video-box">
+      <video id="remoteVideo" autoplay playsinline></video>
+      <div id="remotePlaceholder">👤 Stranger</div>
+    </div>
+
+    <div class="video-box small">
+      <video id="localVideo" autoplay muted playsinline></video>
+      <div id="localPlaceholder">Your Camera</div>
+    </div>
+  </section>
+
+  <div class="controls">
+    <button id="startBtn">Start Chat</button>
+    <button id="nextBtn" disabled>Next</button>
+    <button id="stopBtn" disabled>Stop</button>
+  </div>
+
+  <h2>Messages</h2>
+  <div id="messages"></div>
+
+  <form id="chatForm">
+    <input id="messageInput" placeholder="Write a message..." disabled>
+    <button id="sendBtn" disabled>Send</button>
+  </form>
+
+  <p id="status">Press Start to connect.</p>
+  <button id="reportBtn" disabled>Report User</button>
+</main>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/app.js"></script>
+
+</body>
+</html>
