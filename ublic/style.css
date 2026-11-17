@@ -1,0 +1,175 @@
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #10111b;
+  color: white;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  min-height: 100vh;
+}
+
+header {
+  background: #191a2b;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #333;
+}
+
+header h2 {
+  color: #a78bfa;
+  font-size: 26px;
+}
+
+header span {
+  color: #aaa;
+  font-size: 13px;
+}
+
+main {
+  width: 92%;
+  max-width: 750px;
+  margin: 45px auto;
+}
+
+h1 {
+  font-size: 35px;
+  margin-bottom: 12px;
+}
+
+h1 span {
+  color: #a78bfa;
+}
+
+main > p {
+  color: #aaa;
+  margin-bottom: 30px;
+}
+
+.videos {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.video-box {
+  background: #202133;
+  border: 2px solid #39334f;
+  border-radius: 15px;
+  height: 300px;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+
+.video-box.small {
+  flex: 0 0 30%;
+  height: 180px;
+  align-self: end;
+}
+
+.video-box video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#remotePlaceholder,
+#localPlaceholder {
+  position: absolute;
+  color: #aaa;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 20px 0 35px;
+}
+
+button {
+  border: none;
+  padding: 13px 22px;
+  border-radius: 10px;
+  background: #8059e8;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+#nextBtn {
+  background: #36364e;
+}
+
+#stopBtn,
+#reportBtn {
+  background: #9d354b;
+}
+
+h2 {
+  margin: 20px 0;
+}
+
+#messages {
+  background: #1b1d2b;
+  border: 1px solid #38384c;
+  border-radius: 12px;
+  min-height: 130px;
+  padding: 15px;
+  text-align: left;
+  margin-bottom: 12px;
+  overflow-wrap: anywhere;
+}
+
+#chatForm {
+  display: flex;
+  gap: 8px;
+}
+
+#messageInput {
+  flex: 1;
+  min-width: 0;
+  padding: 13px;
+  border-radius: 10px;
+  border: 1px solid #444;
+  background: #202133;
+  color: white;
+  outline: none;
+}
+
+#status {
+  color: #b9a4ff;
+  margin: 20px;
+}
+
+@media (max-width: 500px) {
+  h1 {
+    font-size: 27px;
+  }
+
+  .video-box {
+    height: 230px;
+  }
+
+  .video-box.small {
+    height: 130px;
+  }
+
+  header h2 {
+    font-size: 21px;
+  }
+}
